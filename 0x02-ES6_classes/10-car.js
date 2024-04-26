@@ -1,34 +1,18 @@
-// 10-car.js
-
-const carData = Symbol('carData');
-
+/* eslint-disable no-underscore-dangle */
 class Car {
   constructor(brand, motor, color) {
-    this[carData] = {
-      brand: brand,
-      motor: motor,
-      color: color
-    };
+    this._brand = brand;
+    this._motor = motor;
+    this._color = color;
   }
 
-  // Getter for brand attribute
-  get brand() {
-    return this[carData].brand;
+  static get [Symbol.species]() {
+    return this;
   }
 
-  // Getter for motor attribute
-  get motor() {
-    return this[carData].motor;
-  }
-
-  // Getter for color attribute
-  get color() {
-    return this[carData].color;
-  }
-
-  // Method to clone the car
   cloneCar() {
-    return new Car(this.brand, this.motor, this.color);
+    const Species = this.constructor[Symbol.species];
+    return new Species();
   }
 }
 
