@@ -1,30 +1,14 @@
-// full_server/server.js
-
-import express from 'express';
-import bodyParser from 'body-parser';
-import fs from 'fs';
-import path from 'path';
-import router from './routes';
+const express = require('express');
+const router = require('./routes/index');
 
 const app = express();
-const PORT = 1245;
+const port = 1245;
 
-// Middleware
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-// Routes
+// Use the router for all routes defined in it
 app.use('/', router);
 
-// Error Handling
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Internal Server Error\n');
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
 
-// Start Server
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}/`);
-});
-
-export default app;
+module.exports = app;
